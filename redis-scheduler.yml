@@ -1,0 +1,18 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: redis-data
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: redis-data
+            image: redis
+            command:
+            - bash
+            - -c
+            - redis-cli -h redis set data-$RANDOM data-$RANDOM
+          restartPolicy: OnFailure
